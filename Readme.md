@@ -1,7 +1,8 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Kirill Alexseev](https://up.htmlacademy.ru/javascript-individual/2/user/2437017).
-* Наставник: `Неизвестно`.
+* Наставник: [Павел Ившин](https://htmlacademy.ru/profile/id818775).
+* Сайт: [kekstagram](https://kirill-alekseev96.github.io/2437017-kekstagram-2/).
 
 ---
 
