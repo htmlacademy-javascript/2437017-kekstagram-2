@@ -1,78 +1,60 @@
-const NUMBER_USERS = 25;
-const MESSAGE_SET = 'Всё отлично! В целом всё неплохо. Но не всё. Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально. Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше. Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше. Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!';
-const NAMES_SET = ['Кирилл', 'Юлия', 'Денис', 'Даниил', 'Святослав', 'Макс', 'Анастасия', 'Анна', 'Александр', 'Михаил', 'Наталья',];
+let nextId = 1;
+
+const config = {
+  photosCount: 25,
+  likesRange: { min: 15, max: 200 },
+  commentsRange: { min: 0, max: 30 },
+  avatarsRange: { min: 1, max: 6 },
+  messages: [
+    'Всё отлично!',
+    'В целом всё неплохо. Но не всё.',
+    'Когда вы делаете фотографию, хорошо бы убирать палец из кадра...',
+    'Моя бабушка случайно чихнула с фотоаппаратом в руках...',
+    'Я поскользнулся на банановой кожуре...',
+    'Лица у людей на фотке перекошены...'
+  ],
+  names: ['Кирилл', 'Юлия', 'Денис', 'Даниил', 'Святослав', 'Макс', 'Анастасия', 'Анна', 'Артём', 'Михаил', 'Наталья']
+};
+
 
 // Вспомогательная функция для случайного числа getRandomInt
-const getRandomInt = function (a, b) {
-  const min = Math.min (a, b);
-  const max = Math.max (a, b);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+const getRandomInteger = function ({min, max}) {
+  const minNum = Math.min (min, max);
+  const maxNum = Math.max (min, max);
+  return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 };
 
-// Вспомогательная функция для случайного элемента из массива
-const getRandomElement = function (array) {
-  return array[getRandomInt(0, array.length - 1)];
-};
+const getRandomElementArray = (elements) => elements[getRandomInteger({min: 0, max: elements.length - 1})];
 
-// Вспомогательная функция для рандомного message в comments.
-// Текст разбивает на предложения помещая в массив.
-const getRandomMessage = function (array) {
-  const sentences = array.match(/[^.!?]+[.!?]+/g).map((str) => str.trim());
-  return getRandomElement(sentences);
-};
 
-// Вспомогательная функция для случайного id пользовотеля
-function createRandomIdUsersComments (min, max) {
-  const previousValues = [];
-  return function () {
-    // 1. Получить случайное целое положительное число
-    let currentValue = getRandomInt(min, max);
-    // 2. Проверить на уникальность. Повторить шаг 1, пока не получим уникальное число
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInt(min, max);
-    }
-    // 3. Запомнить полученное число
-    previousValues.push(currentValue);
-    // 4. Вернуть результат
-    return currentValue;
+/* Генератор случайного id комментариев */
+const createIdGenerator = () => {
+  let lastId = 0;
+  return () => ++lastId;
+};
+/* id комментариев */
+const commentId = createIdGenerator();
+
+const generateComments = function () {
+  return {
+    id: commentId(),
+    avatar: `img/avatar-${getRandomInteger(config.avatarsRange)}.svg`,
+    message: getRandomElementArray(config.messages),
+    name: getRandomElementArray(config.names),
   };
-}
-
-
-// Функция для создания коментария, generateComments
-const generateComments = function (count) {
-
-  const comments = [];
-  const generatePhotoId = createRandomIdUsersComments (1, count);
-  for (let i = 0; i < count; i++) {
-    comments.push({
-      id: generatePhotoId(),
-      avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-      message: getRandomMessage(MESSAGE_SET),
-      name: getRandomElement(NAMES_SET),
-    });
-  }
-  return comments;
 };
 
+/* Генератор фото*/
+const generatePhotos = function (id) {
 
-/* Создать функцию для генерации массива фотографий:
-generatePhotosArray(count), где count = 25.
-Внутри этой функции создать массив и заполнить его объектами.*/
-
-const generatePhotosArray = function (count) {
-  const photos = [];
-
-  for (let i = 1; i <= count; i++) {
-    photos.push({
-      id: i,
-      url: `photos/${i}.jpg`,
-      description: 'Описание фотографии',
-      likes: getRandomInt(15, 200),
-      comments: generateComments(getRandomInt(0, 30)),
-    });
-  }
-  return photos;
+  return {
+    id,
+    url: `photos/${id}.jpg`,
+    description: 'Описание фото',
+    likes: getRandomInteger(config.likesRange),
+    comments: Array.from({length:getRandomInteger(config.commentsRange)}, generateComments),
+  };
 };
 
-generatePhotosArray(NUMBER_USERS);
+const photos = Array.from({length:config.photosCount}, () => generatePhotos(nextId++));
+console.log(photos);
