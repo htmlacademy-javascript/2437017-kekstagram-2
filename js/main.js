@@ -1,5 +1,3 @@
-let nextId = 1;
-
 const config = {
   photosCount: 25,
   likesRange: { min: 15, max: 200 },
@@ -16,7 +14,6 @@ const config = {
   names: ['Кирилл', 'Юлия', 'Денис', 'Даниил', 'Святослав', 'Макс', 'Анастасия', 'Анна', 'Артём', 'Михаил', 'Наталья']
 };
 
-
 // Вспомогательная функция для случайного числа getRandomInt
 const getRandomInteger = function ({min, max}) {
   const minNum = Math.min (min, max);
@@ -24,37 +21,37 @@ const getRandomInteger = function ({min, max}) {
   return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 };
 
-const getRandomElementArray = (elements) => elements[getRandomInteger({min: 0, max: elements.length - 1})];
-
-
-/* Генератор случайного id комментариев */
+/*id для коментов*/
 const createIdGenerator = () => {
-  let lastId = 0;
-  return () => ++lastId;
+  let id = 0;
+  return () => ++id;
 };
-/* id комментариев */
-const commentId = createIdGenerator();
+
+const photoId = createIdGenerator();
+const commentsId = createIdGenerator();
+
+const getRandomElement = (elements) => elements[getRandomInteger({min: 0, max: elements.length - 1})];
+
 
 const generateComments = function () {
   return {
-    id: commentId(),
+    id: commentsId(),
     avatar: `img/avatar-${getRandomInteger(config.avatarsRange)}.svg`,
-    message: getRandomElementArray(config.messages),
-    name: getRandomElementArray(config.names),
+    message: getRandomElement(config.messages),
+    name: getRandomElement(config.names),
   };
 };
 
-/* Генератор фото*/
-const generatePhotos = function (id) {
-
+const generatePhotos = function () {
+  const id = photoId();
   return {
     id,
     url: `photos/${id}.jpg`,
     description: 'Описание фото',
     likes: getRandomInteger(config.likesRange),
-    comments: Array.from({length:getRandomInteger(config.commentsRange)}, generateComments),
+    comments: Array.from({length:getRandomInteger(config.commentsRange)}, () => generateComments()),
   };
 };
 
-const photos = Array.from({length:config.photosCount}, () => generatePhotos(nextId++));
+const photos = Array.from({length:config.photosCount}, () => generatePhotos());
 console.log(photos);
