@@ -1,3 +1,3 @@
+/* eslint-disable no-unused-vars */
 import {photos} from './photos-generator.js';
-
-console.log(photos);
+import {containerPictures} from './rendering-thumbnails.js';
