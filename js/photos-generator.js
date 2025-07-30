@@ -16,7 +16,7 @@ const generatePhotos = function () {
   return {
     id,
     url: `photos/${id}.jpg`,
-    description: 'Описание фото',
+    description: getRandomElement(config.PHOTO_DESCRIPTION),
     likes: getRandomInteger(config.LIKES_RANGE),
     comments: Array.from({length:getRandomInteger(config.COMMENTS_RANGE)}, () => generateComments()),
   };
