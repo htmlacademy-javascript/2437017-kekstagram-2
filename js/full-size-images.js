@@ -1,3 +1,4 @@
+import {containerPictures} from './rendering-thumbnails.js';
 import {photos} from './photos-generator.js';
 import {config} from './data.js';
 
@@ -92,13 +93,13 @@ const openBigPicture = (idPicture) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-// // 1.Открытие модалки при клике на миниатюру
-// containerPictures.addEventListener('click', (evt) => {
-//   const currentPicture = evt.target.closest('.picture');// получаем id выбраной picture
-//   if (currentPicture){
-//     evt.preventDefault();
-//     openBigPicture(currentPicture.dataset.id); // передаем значение id
-//   }
-// });
+// 1.Открытие модалки при клике на миниатюру
+containerPictures.addEventListener('click', (evt) => {
+  const currentPicture = evt.target.closest('.picture');// получаем id выбраной picture
+  if (currentPicture){
+    evt.preventDefault();
+    openBigPicture(currentPicture.dataset.id); // передаем значение id
+  }
+});
 
-export{openBigPicture};
+export{containerPictures};
