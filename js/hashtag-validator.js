@@ -56,9 +56,9 @@ function initValidation() {
   );
 
   // Обработчик отправки формы
-  uploadForm.addEventListener('submit', (e) => {
+  uploadForm.addEventListener('submit', (form) => {
     if (!pristine.validate()) {
-      e.preventDefault();
+      form.preventDefault();
     }
   });
 }

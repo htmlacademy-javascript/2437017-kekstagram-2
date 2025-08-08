@@ -1,4 +1,6 @@
 import { descriptionInput, hashtagsInput, uploadForm, initValidation } from './hashtag-validator.js';
+import { initScaleControls, updateImageScale } from './image-editing-scale.js';
+
 // Элементы формы
 const overlayImg = uploadForm.querySelector('.img-upload__overlay'); // контейнер редактирования загруженного изображения
 const previewImg = uploadForm.querySelector('.img-upload__preview img'); // Предварительный просмотр изображения(само изображение)
@@ -28,6 +30,7 @@ function closePhotoEditor () {
   buttonReset.removeEventListener('click', onCloseBtnClick);
   uploadFile.value = '';
   uploadForm.reset(); // Сбрасываем форму
+  updateImageScale(1);
 }
 
 // Открытие формы после загрузки изображения
@@ -43,8 +46,8 @@ const openUploadedPhoto = () => {
     buttonReset.addEventListener('click', onCloseBtnClick); // удаляет с прослушиватель Х
     document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC
     initValidation();
+    initScaleControls();
   });
-
 };
 
-export { openUploadedPhoto };
+export { openUploadedPhoto, previewImg };
