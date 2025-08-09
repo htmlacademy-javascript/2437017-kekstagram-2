@@ -4,9 +4,6 @@ const listPictureFragment = document.createDocumentFragment();
 
 const templatePicture = document.querySelector('#picture').content.querySelector('.picture');
 
-// const newPictures = photos;
-
-
 photos.forEach((photo) => {
   const {id,url,description,likes,comments} = photo;
   const picturesElement = templatePicture.cloneNode(true);
