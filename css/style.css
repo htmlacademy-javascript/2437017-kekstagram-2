@@ -522,6 +522,11 @@ main {
   max-height: 600px;
 }
 
+/* контейнер слайдера */
+.img-upload__effect-level {
+  display: none;
+}
+
 
 /**
  * Шкала регулирования глубины фильтра
@@ -719,6 +724,15 @@ main {
   position: relative;
 }
 
+.img-upload__field-wrapper--error span.error {
+  color: #eed21e;
+  display: block;
+  padding: 5px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+}
 
 /**
  * Кнопка для отправки изображения
