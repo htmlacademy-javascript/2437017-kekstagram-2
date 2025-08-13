@@ -1,5 +1,6 @@
 import { descriptionInput, hashtagsInput, uploadForm, initValidation } from './hashtag-validator.js';
 import { initScaleControls, updateImageScale } from './image-editing-scale.js';
+import { addSlider, deleteSlider, tracksSelectedEffect, resetsValuesElements, effectsList } from './slider-effect.js';
 
 // Элементы формы
 const overlayImg = uploadForm.querySelector('.img-upload__overlay'); // контейнер редактирования загруженного изображения
@@ -28,9 +29,12 @@ function closePhotoEditor () {
   document.querySelector('body').classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   buttonReset.removeEventListener('click', onCloseBtnClick);
+  effectsList.removeEventListener('change', tracksSelectedEffect);
   uploadFile.value = '';
   uploadForm.reset(); // Сбрасываем форму
   updateImageScale(1);
+  resetsValuesElements();
+  deleteSlider();
 }
 
 // Открытие формы после загрузки изображения
@@ -47,6 +51,8 @@ const openUploadedPhoto = () => {
     document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC
     initValidation();
     initScaleControls();
+    addSlider();
+    tracksSelectedEffect();
   });
 };
 
