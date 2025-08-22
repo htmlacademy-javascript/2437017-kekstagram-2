@@ -1,5 +1,4 @@
 import {containerPictures} from './rendering-thumbnails.js';
-import {photos} from './photos-generator.js';
 import {config} from './data.js';
 
 const bigPicture = document.querySelector('.big-picture');
@@ -10,6 +9,7 @@ const buttonClose = bigPicture.querySelector('.big-picture__cancel');
 const shownCommentsCount = bigPicture.querySelector('.social__comment-shown-count');
 const totalCommentsCount = bigPicture.querySelector('.social__comment-total-count');
 
+let photosArray = null;
 let currentComments = [];
 let commentsShown = 0;
 
@@ -71,7 +71,7 @@ function onDocumentKeydown (evt) {
 
 //2.Открывает полноэкранный просмотр фото
 const openBigPicture = (idPicture) => {
-  const currentPhoto = photos.find((photo) => photo.id === Number(idPicture)); // сравниваем полученое id с массивом
+  const currentPhoto = photosArray.find((photo) => photo.id === Number(idPicture)); // сравниваем полученое id с массивом
 
   bigPicture.querySelector('.big-picture__img img').src = currentPhoto.url;
   bigPicture.querySelector('.likes-count').textContent = currentPhoto.likes;
@@ -84,7 +84,7 @@ const openBigPicture = (idPicture) => {
   currentComments = currentPhoto.comments; // сохраняем все коменты в переменную
   clearComments();
 
-  renderComments(currentPhoto.comments); // передаем массив комментариев
+  renderComments(currentPhoto.comments); // Отрисовка комментариев для текущей фотографии
 
   buttonUpload.addEventListener('click', onUploadButtonClick);
   // Закрытие по клику на крестик
@@ -94,12 +94,19 @@ const openBigPicture = (idPicture) => {
 };
 
 // 1.Открытие модалки при клике на миниатюру
-containerPictures.addEventListener('click', (evt) => {
-  const currentPicture = evt.target.closest('.picture');// получаем id выбраной picture
-  if (currentPicture){
-    evt.preventDefault();
-    openBigPicture(currentPicture.dataset.id); // передаем значение id
-  }
-});
+const setupEventListeners = () => {
+  containerPictures.addEventListener('click', (evt) => {
+    const currentPicture = evt.target.closest('.picture');// получаем id выбраной picture
+    if (currentPicture){
+      evt.preventDefault();
+      openBigPicture(currentPicture.dataset.id); // передаем значение id
+    }
+  });
+};
 
-export{containerPictures};
+const initBigPicture = (photos) => {
+  photosArray = photos; // Сохраняем переданные данные
+  setupEventListeners();
+};
+
+export{ initBigPicture };

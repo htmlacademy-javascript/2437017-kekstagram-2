@@ -24,5 +24,10 @@
   "engines": {
     "node": "^20",
     "npm": "^10"
+  },
+  "dependencies": {
+    "nouislider": "^15.8.1",
+    "pristine": "^0.0.1",
+    "pristinejs": "^1.1.0"
   }
 }

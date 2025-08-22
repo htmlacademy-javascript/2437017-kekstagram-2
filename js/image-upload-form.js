@@ -1,6 +1,8 @@
 import { descriptionInput, hashtagsInput, uploadForm, initValidation } from './hashtag-validator.js';
 import { initScaleControls, updateImageScale } from './image-editing-scale.js';
 import { addSlider, deleteSlider, tracksSelectedEffect, resetsValuesElements, effectsList } from './slider-effect.js';
+import {buttonSubmit} from './hashtag-validator.js';
+import {formStatus} from './data.js';
 
 // Элементы формы
 const overlayImg = uploadForm.querySelector('.img-upload__overlay'); // контейнер редактирования загруженного изображения
@@ -10,6 +12,13 @@ const uploadFile = uploadForm.querySelector('#upload-file'); // input загру
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
+
+    const elementError = document.querySelector(`.${formStatus.ERROR}`);
+    if (document.contains(elementError)) {
+      elementError.remove();
+      return;
+    }
+
     // Проверяем, не в фокусе ли поля ввода
     const isInputFocused = document.activeElement === hashtagsInput ||
                           document.activeElement === descriptionInput;
@@ -37,23 +46,31 @@ function closePhotoEditor () {
   deleteSlider();
 }
 
-// Открытие формы после загрузки изображения
-const openUploadedPhoto = () => {
+// 2.Открытие формы после загрузки изображения
+const openUploadedPhoto = (file) => {
+  buttonSubmit.disabled = false;
+  const imageUrl = URL.createObjectURL(file);
+  previewImg.src = imageUrl;
+
+  overlayImg.classList.remove('hidden'); // После выбора изображения удаляется класс
+  document.querySelector('body').classList.add('modal-open'); // После выбора изображения задаётся класс
+  buttonReset.addEventListener('click', onCloseBtnClick); // удаляет с прослушиватель Х
+  document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC
+  initValidation();
+  initScaleControls();
+  addSlider();
+  tracksSelectedEffect();
+
+};
+
+// 1. инициализация загрузки формы
+const initUploadForm = () => {
   uploadFile.addEventListener('change', (evt) => {
     const file = evt.target.files[0]; // получаем массив, фото пользователя.
-    const imageUrl = URL.createObjectURL(file);
-    previewImg.src = imageUrl;
-
-    overlayImg.classList.remove('hidden'); // После выбора изображения удаляется класс
-    document.querySelector('body').classList.add('modal-open'); // После выбора изображения задаётся класс
-
-    buttonReset.addEventListener('click', onCloseBtnClick); // удаляет с прослушиватель Х
-    document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC
-    initValidation();
-    initScaleControls();
-    addSlider();
-    tracksSelectedEffect();
+    if (file) {
+      openUploadedPhoto(file); // передаем файл в функцию открытия
+    }
   });
 };
 
-export { openUploadedPhoto, previewImg };
+export { initUploadForm, previewImg, closePhotoEditor };
