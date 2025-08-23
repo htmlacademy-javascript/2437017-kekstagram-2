@@ -1,6 +1,10 @@
+import {getMessageElement} from './error-success-form.js';
+import {sendData} from './api.js';
+
 const uploadForm = document.querySelector('.img-upload__form'); //Forma
 const hashtagsInput = uploadForm.querySelector('.text__hashtags'); // input для хэштегов
 const descriptionInput = uploadForm.querySelector('.text__description'); // textarea для коммент
+const buttonSubmit = uploadForm.querySelector('#upload-submit');
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -54,13 +58,18 @@ function initValidation() {
     1,
     true
   );
-
-  // Обработчик отправки формы
-  uploadForm.addEventListener('submit', (form) => {
-    if (!pristine.validate()) {
-      form.preventDefault();
-    }
-  });
 }
 
-export {descriptionInput, hashtagsInput, uploadForm, initValidation };
+// Обработчик отправки формы
+const setUserFormSubmit = (onSuccess) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) { //если true
+      const formData = new FormData(evt.target); // собираем все данные из формы
+      sendData (onSuccess, getMessageElement, formData);
+      buttonSubmit.disabled = true;
+    }
+  });
+};
+export {descriptionInput, hashtagsInput, uploadForm, buttonSubmit };
+export {setUserFormSubmit, initValidation};
