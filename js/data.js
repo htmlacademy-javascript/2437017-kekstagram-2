@@ -5,10 +5,16 @@ const formStatus = {
 
 const config = {
   COMMENTS_PER_PORTION : 5,
-  timer : 5,
+  SEC : 5000,
 };
 
-export {formStatus, config};
+const filters = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
+};
+
+export {formStatus, config, filters};
 
 // const config = {
 //   COMMENTS_PER_PORTION : 5,

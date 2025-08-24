@@ -1,4 +1,6 @@
 import {formStatus} from './data.js';
+import {buttonSubmit} from './hashtag-validator.js';
+import {config} from './data.js';
 
 const getMessageElement = (element) => { //success или error
 
@@ -10,6 +12,7 @@ const getMessageElement = (element) => { //success или error
   const closeButton = messageElement.querySelector('button');
 
   const closeMessage = () => {
+    buttonSubmit.disabled = false;
     messageElement.remove();
     document.removeEventListener('click', handleDocumentClick);
   };
@@ -41,7 +44,7 @@ const getMessageElement = (element) => { //success или error
 
     setTimeout(() => {
       closeMessage();// Удаляем только если элемент в DOM
-    }, 5000);
+    }, config.SEC);
   }
 };
 

@@ -16,6 +16,7 @@ const onDocumentKeydown = (evt) => {
     const elementError = document.querySelector(`.${formStatus.ERROR}`);
     if (document.contains(elementError)) {
       elementError.remove();
+      buttonSubmit.disabled = false;
       return;
     }
 
@@ -44,11 +45,11 @@ function closePhotoEditor () {
   updateImageScale(1);
   resetsValuesElements();
   deleteSlider();
+  buttonSubmit.disabled = false;
 }
 
 // 2.Открытие формы после загрузки изображения
 const openUploadedPhoto = (file) => {
-  buttonSubmit.disabled = false;
   const imageUrl = URL.createObjectURL(file);
   previewImg.src = imageUrl;
 

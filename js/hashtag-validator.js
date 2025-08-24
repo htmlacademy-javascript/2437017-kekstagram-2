@@ -66,8 +66,8 @@ const setUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
     if (pristine.validate()) { //если true
       const formData = new FormData(evt.target); // собираем все данные из формы
-      sendData (onSuccess, getMessageElement, formData);
       buttonSubmit.disabled = true;
+      sendData (onSuccess, getMessageElement, formData);
     }
   });
 };

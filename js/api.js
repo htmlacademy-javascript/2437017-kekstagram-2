@@ -1,13 +1,14 @@
-import {initUploadForm} from './image-upload-form.js';
-// получить данные
-const getData = (onSuccess) => {
-  fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
-    .then((response) => response.json())
-    .then((photos) => {
-      onSuccess(photos);
-      initUploadForm();
-    });
-};
+//получить данные
+async function getData() {
+  const response = await fetch('https://31.javascript.htmlacademy.pro/kekstagram/data');
+
+  if (!response.ok) {
+    throw new Error(`Ошибка сервера: ${response.status}`);
+  }
+
+  return response.json(); // Только данные, без побочных эффектов
+}
+
 
 //отправить данные
 const sendData = (onSuccess, onFail, body) => {
