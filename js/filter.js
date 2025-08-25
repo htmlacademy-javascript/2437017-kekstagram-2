@@ -1,7 +1,7 @@
 import {renderThumbnails} from './rendering-thumbnails.js';
-import {filters} from './data.js';
+import {config, filters} from './data.js';
 
-let originalArray = []; // Экспортируем переменную
+let originalArray = [];
 
 const containerFilters = document.querySelector('.img-filters');
 const fromFilters = containerFilters.querySelector('.img-filters__form');
@@ -34,7 +34,7 @@ const showSelectedFilter = (filterId, clickedElement) => {
       break;
     }
     case filters.RANDOM: {
-      const randomArray = [...originalArray].sort(() => Math.random() - 0.5).slice(0, 10);
+      const randomArray = [...originalArray].sort(() => Math.random() - 0.5).slice(0, config.NUMBER_RANDOM_PHOTOS);
       renderThumbnails(randomArray);
       break;
     }
@@ -60,7 +60,7 @@ const onFiltersClick = (evt) => {
   }
 };
 
-// Функция инициализации фильтров, которая принимает данные
+// 1. инициализации фильтров, которая принимает данные
 const initFilters = (photos) => {
 
   if (!photos || photos.length === 0) {

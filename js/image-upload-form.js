@@ -52,8 +52,7 @@ function closePhotoEditor () {
 const openUploadedPhoto = (file) => {
   const imageUrl = URL.createObjectURL(file);
   previewImg.src = imageUrl;
-
-  overlayImg.classList.remove('hidden'); // После выбора изображения удаляется класс
+  overlayImg.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open'); // После выбора изображения задаётся класс
   buttonReset.addEventListener('click', onCloseBtnClick); // удаляет с прослушиватель Х
   document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC

@@ -18,15 +18,12 @@ async function initApp() {
     setUserFormSubmit(closePhotoEditor);
 
   } catch (error) {
-    // ЕСЛИ ОШИБКА - НИЧЕГО НЕ ВЫЗЫВАЕМ (кроме обработки ошибки)
+    // ЕСЛИ ОШИБКА - НИЧЕГО НЕ ВЫЗЫВАЕМ
     console.error('Не удалось загрузить данные:', error);
 
-    // Можно инициализировать только то, что не требует данных
-    // Например, форму загрузки (если она работает без данных сервера)
     initUploadForm();
     setUserFormSubmit(closePhotoEditor);
   }
 }
 
 initApp();
-

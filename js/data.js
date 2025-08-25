@@ -5,6 +5,7 @@ const formStatus = {
 
 const config = {
   COMMENTS_PER_PORTION : 5,
+  NUMBER_RANDOM_PHOTOS : 10,
   SEC : 5000,
 };
 
@@ -14,7 +15,22 @@ const filters = {
   DISCUSSED: 'filter-discussed',
 };
 
-export {formStatus, config, filters};
+const validator = {
+  HASHTAG_REGEX: /^#[a-zа-яё0-9]{1,19}$/i,
+  NUMBER_HASHTAGS: 5,
+  LENGTH_COMMENT: 140,
+};
+
+const effects = {
+  chrome: {filter: 'grayscale', unit: '', min: 0, max: 1, step: 0.1,},
+  sepia: {filter: 'sepia', unit: '', min: 0, max: 1, step: 0.1,},
+  marvin: {filter: 'invert', unit: '%', min: 0, max: 100, step: 1,},
+  phobos: {filter: 'blur', unit: 'px', min: 0, max: 3, step: 0.1,},
+  heat: {filter: 'brightness', unit: '', min: 1, max: 3, step: 0.1,},
+  none: {filter: null,},
+};
+
+export {formStatus, config, filters, validator, effects};
 
 // const config = {
 //   COMMENTS_PER_PORTION : 5,

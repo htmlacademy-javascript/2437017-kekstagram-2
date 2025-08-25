@@ -1,3 +1,4 @@
+import {formStatus} from './data.js';
 //получить данные
 async function getData() {
   const response = await fetch('https://31.javascript.htmlacademy.pro/kekstagram/data');
@@ -6,7 +7,7 @@ async function getData() {
     throw new Error(`Ошибка сервера: ${response.status}`);
   }
 
-  return response.json(); // Только данные, без побочных эффектов
+  return response.json();
 }
 
 
@@ -21,13 +22,13 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-        onFail('success');
+        onFail(formStatus.SUCCESS);
       } else {
-        onFail('error');
+        onFail(formStatus.ERROR);
       }
     })
     .catch(() => {
-      onFail('error');
+      onFail(formStatus.ERROR);
     });
 };
 
