@@ -1,19 +1,19 @@
-import {formStatus} from './data.js';
-//получить данные
-async function getData() {
-  const response = await fetch('https://31.javascript.htmlacademy.pro/kekstagram/data');
+import {formStatus, route} from './data.js';
+
+const getData = async () => {
+  const response = await fetch(`${route.BASE_URL}${route.GET}`);
 
   if (!response.ok) {
-    throw new Error(`Ошибка сервера: ${response.status}`);
+    throw new Error(`Ошибка HTTP: ${response.status}`);
   }
 
   return response.json();
-}
+};
 
 
 //отправить данные
 const sendData = (onSuccess, onFail, body) => {
-  fetch ('https://31.javascript.htmlacademy.pro/kekstagram',
+  fetch (`${route.BASE_URL}${route.SEND}`,
     {
       method: 'POST',
       body,

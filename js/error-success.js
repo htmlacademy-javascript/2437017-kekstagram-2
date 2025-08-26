@@ -2,6 +2,20 @@ import {formStatus} from './data.js';
 import {buttonSubmit} from './hashtag-validator.js';
 import {config} from './data.js';
 
+const errorLoadDataTemplate = document.querySelector('#data-error').content;
+
+
+const showErrorMessage = () => {
+  const errorArea = errorLoadDataTemplate.cloneNode(true);
+  document.body.append(errorArea);
+
+  const errorElement = document.body.querySelector('.data-error');
+
+  setTimeout(() => {
+    errorElement .remove();
+  },config.TIMEOUT);
+};
+
 const getMessageElement = (element) => { //success или error
 
   const template = document.getElementById(element);
@@ -44,9 +58,9 @@ const getMessageElement = (element) => { //success или error
 
     setTimeout(() => {
       closeMessage();// Удаляем только если элемент в DOM
-    }, config.SEC);
+    }, config.TIMEOUT);
   }
 };
 
-export {getMessageElement};
+export {getMessageElement, showErrorMessage};
 

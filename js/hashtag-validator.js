@@ -1,4 +1,4 @@
-import {getMessageElement} from './error-success-form.js';
+import {getMessageElement} from './error-success.js';
 import {sendData} from './api.js';
 import {validator} from './data.js';
 
