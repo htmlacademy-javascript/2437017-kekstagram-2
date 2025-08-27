@@ -17,7 +17,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "node js/main.js",
     "start": "vite --port 3000 --open",
     "lint": "eslint js/"
   },
@@ -27,7 +26,6 @@
   },
   "dependencies": {
     "nouislider": "^15.8.1",
-    "pristine": "^0.0.1",
     "pristinejs": "^1.1.0"
   }
 }
