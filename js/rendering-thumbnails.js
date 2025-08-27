@@ -15,10 +15,9 @@ const renderThumbnails = (photos) => {
 
     listPictureFragment.appendChild(picturesElement);
   });
+  containerPictures.querySelectorAll('.picture').forEach((pic) => pic.remove()); //очищаем .picture в DOM
   containerPictures.appendChild(listPictureFragment);
   return containerPictures.querySelectorAll('.picture');
 };
-
-// getData(renderThumbnails);
 
 export {containerPictures,renderThumbnails};

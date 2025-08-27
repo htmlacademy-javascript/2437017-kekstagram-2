@@ -1,4 +1,20 @@
 import {formStatus} from './data.js';
+import {buttonSubmit} from './hashtag-validator.js';
+import {config} from './data.js';
+
+const errorLoadDataTemplate = document.querySelector('#data-error').content;
+
+
+const showErrorMessage = () => {
+  const errorArea = errorLoadDataTemplate.cloneNode(true);
+  document.body.append(errorArea);
+
+  const errorElement = document.body.querySelector('.data-error');
+
+  setTimeout(() => {
+    errorElement .remove();
+  },config.TIMEOUT);
+};
 
 const getMessageElement = (element) => { //success или error
 
@@ -10,6 +26,7 @@ const getMessageElement = (element) => { //success или error
   const closeButton = messageElement.querySelector('button');
 
   const closeMessage = () => {
+    buttonSubmit.disabled = false;
     messageElement.remove();
     document.removeEventListener('click', handleDocumentClick);
   };
@@ -41,9 +58,9 @@ const getMessageElement = (element) => { //success или error
 
     setTimeout(() => {
       closeMessage();// Удаляем только если элемент в DOM
-    }, 5000);
+    }, config.TIMEOUT);
   }
 };
 
-export {getMessageElement};
+export {getMessageElement, showErrorMessage};
 

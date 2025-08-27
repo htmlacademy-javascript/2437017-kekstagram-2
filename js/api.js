@@ -1,17 +1,19 @@
-import {initUploadForm} from './image-upload-form.js';
-// получить данные
-const getData = (onSuccess) => {
-  fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
-    .then((response) => response.json())
-    .then((photos) => {
-      onSuccess(photos);
-      initUploadForm();
-    });
+import {formStatus, route} from './data.js';
+
+const getData = async () => {
+  const response = await fetch(`${route.BASE_URL}${route.GET}`);
+
+  if (!response.ok) {
+    throw new Error(`Ошибка HTTP: ${response.status}`);
+  }
+
+  return response.json();
 };
+
 
 //отправить данные
 const sendData = (onSuccess, onFail, body) => {
-  fetch ('https://31.javascript.htmlacademy.pro/kekstagram',
+  fetch (`${route.BASE_URL}${route.SEND}`,
     {
       method: 'POST',
       body,
@@ -20,13 +22,13 @@ const sendData = (onSuccess, onFail, body) => {
     .then((response) => {
       if (response.ok) {
         onSuccess();
-        onFail('success');
+        onFail(formStatus.SUCCESS);
       } else {
-        onFail('error');
+        onFail(formStatus.ERROR);
       }
     })
     .catch(() => {
-      onFail('error');
+      onFail(formStatus.ERROR);
     });
 };
 
