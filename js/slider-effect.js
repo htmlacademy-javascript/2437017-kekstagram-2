@@ -6,16 +6,6 @@ const sliderElement = containerSlider.querySelector('.effect-level__slider');
 const valueElement = containerSlider.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects__list');
 
-//Параметры для каждого типа эффекта
-// const effects = {
-//   chrome: {filter: 'grayscale', unit: '', min: 0, max: 1, step: 0.1,},
-//   sepia: {filter: 'sepia', unit: '', min: 0, max: 1, step: 0.1,},
-//   marvin: {filter: 'invert', unit: '%', min: 0, max: 100, step: 1,},
-//   phobos: {filter: 'blur', unit: 'px', min: 0, max: 3, step: 0.1,},
-//   heat: {filter: 'brightness', unit: '', min: 1, max: 3, step: 0.1,},
-//   none: {filter: null,},
-// };
-
 //Очистка всех классов эффектов с изображения
 const removeAllEffectClasses = () => {
   // Удаляем все классы эффектов

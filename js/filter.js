@@ -44,7 +44,7 @@ const showSelectedFilter = (filterId, clickedElement) => {
       break;
     }
     default:
-      console.log('Неизвестный фильтр:', filterId);
+      break;
   }
 };
 

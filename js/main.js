@@ -10,18 +10,15 @@ import { showErrorMessage } from './error-success.js';
 const initApp = async () => {
   try {
     const photos = await getData();
-    // ЭТОТ КОД ВЫПОЛНИТСЯ ТОЛЬКО ЕСЛИ getData УСПЕШЕН
     renderThumbnails(photos);
     initBigPicture(photos);
     initFilters(photos);
     initUploadForm(photos);
     setUserFormSubmit(closePhotoEditor);
-
-  } catch (error) {
-    showErrorMessage(); // Теперь сработает!
-
     initUploadForm();
     setUserFormSubmit(closePhotoEditor);
+  } catch (error) {
+    showErrorMessage();
   }
 };
 

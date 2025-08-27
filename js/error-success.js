@@ -12,7 +12,7 @@ const showErrorMessage = () => {
   const errorElement = document.body.querySelector('.data-error');
 
   setTimeout(() => {
-    errorElement .remove();
+    errorElement.remove();
   },config.TIMEOUT);
 };
 
