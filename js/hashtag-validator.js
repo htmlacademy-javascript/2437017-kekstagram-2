@@ -1,5 +1,6 @@
-import {getMessageElement} from './error-success-form.js';
+import {getMessageElement} from './error-success.js';
 import {sendData} from './api.js';
+import {validator} from './data.js';
 
 const uploadForm = document.querySelector('.img-upload__form'); //Forma
 const hashtagsInput = uploadForm.querySelector('.text__hashtags'); // input для хэштегов
@@ -13,13 +14,12 @@ const pristine = new Pristine(uploadForm, {
 });
 
 function initValidation() {
-  const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
   // 1. Проверка на количество хэштегов (не больше 5)
   pristine.addValidator(
     hashtagsInput,(value) => {
       const hashtagsArray = value.split(' ').filter((el) => el.trim() !== '');
-      return !value.trim() || hashtagsArray.length <= 5;
+      return !value.trim() || hashtagsArray.length <= validator.NUMBER_HASHTAGS;
     },
     'Максимум 5 хэштегов!',
     2,
@@ -33,7 +33,7 @@ function initValidation() {
 
       for (let i = 0; i < hashtagsArray.length; i++) {
         const current = hashtagsArray[i];
-        if (!HASHTAG_REGEX.test(current)) {
+        if (!validator.HASHTAG_REGEX.test(current)) {
           return false;
         }
 
@@ -53,7 +53,7 @@ function initValidation() {
   // 3. Проверка комментария (не больше 140 символов)
   pristine.addValidator(
     descriptionInput,
-    (value) => value.length <= 140,
+    (value) => value.length <= validator.LENGTH_COMMENT,
     'Комментарий не должен превышать 140 символов',
     1,
     true
@@ -66,8 +66,8 @@ const setUserFormSubmit = (onSuccess) => {
     evt.preventDefault();
     if (pristine.validate()) { //если true
       const formData = new FormData(evt.target); // собираем все данные из формы
-      sendData (onSuccess, getMessageElement, formData);
       buttonSubmit.disabled = true;
+      sendData (onSuccess, getMessageElement, formData);
     }
   });
 };

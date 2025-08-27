@@ -16,6 +16,7 @@ const onDocumentKeydown = (evt) => {
     const elementError = document.querySelector(`.${formStatus.ERROR}`);
     if (document.contains(elementError)) {
       elementError.remove();
+      buttonSubmit.disabled = false;
       return;
     }
 
@@ -44,15 +45,14 @@ function closePhotoEditor () {
   updateImageScale(1);
   resetsValuesElements();
   deleteSlider();
+  buttonSubmit.disabled = false;
 }
 
 // 2.Открытие формы после загрузки изображения
 const openUploadedPhoto = (file) => {
-  buttonSubmit.disabled = false;
   const imageUrl = URL.createObjectURL(file);
   previewImg.src = imageUrl;
-
-  overlayImg.classList.remove('hidden'); // После выбора изображения удаляется класс
+  overlayImg.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open'); // После выбора изображения задаётся класс
   buttonReset.addEventListener('click', onCloseBtnClick); // удаляет с прослушиватель Х
   document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC
