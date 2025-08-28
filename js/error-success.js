@@ -1,4 +1,3 @@
-import {formStatus} from './data.js';
 import {buttonSubmit} from './hashtag-validator.js';
 import {config} from './data.js';
 
