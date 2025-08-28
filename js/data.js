@@ -37,4 +37,12 @@ const effects = {
   none: {filter: null,},
 };
 
-export {formStatus, config, filters, validator, effects, route};
+const scale = {
+  STEP: 0.25,
+  MIN: 0.25,
+  MAX: 1,
+  DEFAULT: 1,
+  DISPLAY_MULTIPLIER: 100
+};
+
+export {formStatus, config, filters, validator, effects, route, scale};

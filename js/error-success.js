@@ -1,4 +1,3 @@
-import {formStatus} from './data.js';
 import {buttonSubmit} from './hashtag-validator.js';
 import {config} from './data.js';
 
@@ -28,18 +27,18 @@ const getMessageElement = (element) => { //success или error
   const closeMessage = () => {
     buttonSubmit.disabled = false;
     messageElement.remove();
-    document.removeEventListener('click', handleDocumentClick);
+    document.removeEventListener('click', onDocumentClick);
   };
 
   // обработка Escape
   const onDocumentKeydown = (evt) => {
-    if (evt.key === 'Escape' || document.querySelector(`.${formStatus.SUCCESS}`)) {
+    if (evt.key === 'Escape') {
       messageElement.remove();
       document.removeEventListener('keydown', onDocumentKeydown); // Удаляем обработчик
     }
   };
 
-  function handleDocumentClick(event) {
+  function onDocumentClick(event) {
     if (!event.target.closest(`.${element}__inner`)) {
       closeMessage();
     }
@@ -53,12 +52,9 @@ const getMessageElement = (element) => { //success или error
       });
     }
 
-    document.addEventListener('click', handleDocumentClick);
+    document.addEventListener('click', onDocumentClick);
     document.addEventListener('keydown', onDocumentKeydown);
 
-    setTimeout(() => {
-      closeMessage();// Удаляем только если элемент в DOM
-    }, config.TIMEOUT);
   }
 };
 

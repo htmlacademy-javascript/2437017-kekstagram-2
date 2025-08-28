@@ -6,9 +6,10 @@ const sliderElement = containerSlider.querySelector('.effect-level__slider');
 const valueElement = containerSlider.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects__list');
 
+let currentEffect = 'none';
+
 //Очистка всех классов эффектов с изображения
 const removeAllEffectClasses = () => {
-  // Удаляем все классы эффектов
   previewImg.classList.remove(
     'effects__preview--chrome',
     'effects__preview--sepia',
@@ -27,6 +28,17 @@ const addSlider = () => {
       step: 0.1,
       connect: 'lower',
     });
+
+    sliderElement.noUiSlider.on('update', (value) => {
+      const numericValue = Number(value);
+      valueElement.value = numericValue;
+      if (currentEffect !== 'none') {
+        const effect = effects[currentEffect]; // текущий выбранный объект
+        previewImg.style.filter = `${effect.filter}(${numericValue}${effect.unit})`;//invert(50%)
+      }else {
+        previewImg.style.filter = 'none';
+      }
+    });
   }
 };
 
@@ -44,24 +56,11 @@ const resetsValuesElements = () => {
   valueElement.value = '';
 };
 
-//изменение значения слайдера и применение соответствующего эффекта к изображению
-const handleEffectIntensityChange = (value) => {
-  const selectedEffect = value;
-  sliderElement.noUiSlider.on('update', (unencoded) => {
-    const numericValue = unencoded[0];
-    valueElement.value = numericValue;
-    if (selectedEffect !== 'none') {
-      const effect = effects[selectedEffect]; // текущий выбранный объект
-      previewImg.style.filter = `${effect.filter}(${numericValue}${effect.unit})`;//invert(50%)
-    }
-  });
-};
-
 //Применение выбранного фильтра
-const tracksSelectedFilter = (value) => { //value = chrome, sepia, marvin, phobos, heat, none
+const tracksSelectedFilter = (value) => {
+  currentEffect = value;
   if (value !== 'none') {
-    handleEffectIntensityChange(value);
-    // доб.класс выбранного фильтра
+    addSlider();
     previewImg.classList.add(`effects__preview--${value}`);
     containerSlider.style.display = 'block';
     sliderElement.noUiSlider.updateOptions ({
@@ -73,7 +72,6 @@ const tracksSelectedFilter = (value) => { //value = chrome, sepia, marvin, phobo
       step: effects[value].step,
     });
   }else {
-    //скрываем слайдер
     resetsValuesElements();
   }
 };
@@ -81,11 +79,10 @@ const tracksSelectedFilter = (value) => { //value = chrome, sepia, marvin, phobo
 //Обработчик выбранного эффекта,
 const tracksSelectedEffect = () => {
   effectsList.addEventListener('change', (evt) => {
-    //при каждом выборе удаляем все доб. классы
     removeAllEffectClasses();
     const selectedEffects = evt.target.value;
     tracksSelectedFilter(selectedEffects);
   });
 };
 
-export {addSlider, deleteSlider, tracksSelectedEffect, resetsValuesElements, effectsList} ;
+export { addSlider, deleteSlider, tracksSelectedEffect, resetsValuesElements, effectsList };
