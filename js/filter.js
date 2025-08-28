@@ -7,7 +7,7 @@ const containerFilters = document.querySelector('.img-filters');
 const fromFilters = containerFilters.querySelector('.img-filters__form');
 
 // 1. Добавляем функцию debounce
-function debounce(callback, timeoutDelay = 300) {
+function debounce(callback, timeoutDelay = 500) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
@@ -47,7 +47,7 @@ const showSelectedFilter = (filterId, clickedElement) => {
 
 
 // 2. Создаем "заторможенную" версию функции
-const debouncedShowFilter = debounce(showSelectedFilter, 300);
+const debouncedShowFilter = debounce(showSelectedFilter, 500);
 
 const onFiltersClick = (evt) => {
   if(evt.target.classList.contains('img-filters__button')) {

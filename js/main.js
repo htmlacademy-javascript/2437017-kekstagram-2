@@ -15,10 +15,10 @@ const initApp = async () => {
     initFilters(photos);
     initUploadForm(photos);
     setUserFormSubmit(closePhotoEditor);
-    initUploadForm();
-    setUserFormSubmit(closePhotoEditor);
   } catch (error) {
     showErrorMessage();
+    initUploadForm();
+    setUserFormSubmit(closePhotoEditor);
   }
 };
 

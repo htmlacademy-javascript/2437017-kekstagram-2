@@ -28,14 +28,14 @@ const getMessageElement = (element) => { //success или error
   const closeMessage = () => {
     buttonSubmit.disabled = false;
     messageElement.remove();
-    document.removeEventListener('keydown', onDocumentKeydown);
     document.removeEventListener('click', onDocumentClick);
   };
 
   // обработка Escape
   const onDocumentKeydown = (evt) => {
     if (evt.key === 'Escape') {
-      closeMessage();
+      messageElement.remove();
+      document.removeEventListener('keydown', onDocumentKeydown); // Удаляем обработчик
     }
   };
 
@@ -45,21 +45,18 @@ const getMessageElement = (element) => { //success или error
     }
   }
 
-  // Добавляем обработчик закрытия по кнопке
-  if (closeButton) {
-  closeButton.addEventListener('click', (event) => {
-    event.stopPropagation(); // Останавливаем всплытие события
-    closeMessage();
-  });
-}
+  if (messageElement.parentNode) {
+    // Добавляем обработчик закрытия по кнопке
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        closeMessage();
+      });
+    }
 
-  document.addEventListener('click', onDocumentClick);
-  document.addEventListener('keydown', onDocumentKeydown);
+    document.addEventListener('click', onDocumentClick);
+    document.addEventListener('keydown', onDocumentKeydown);
 
-  setTimeout(() => {
-    closeMessage();// Удаляем только если элемент в DOM
-  }, config.TIMEOUT);
-
+  }
 };
 
 export {getMessageElement, showErrorMessage};
