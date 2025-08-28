@@ -32,13 +32,11 @@ const addSlider = () => {
     sliderElement.noUiSlider.on('update', (value) => {
       const numericValue = Number(value);
       valueElement.value = numericValue;
-      console.log(numericValue);
-      if (currentEffect  !== 'none') {
-        const effect = effects[currentEffect ]; // текущий выбранный объект
+      if (currentEffect !== 'none') {
+        const effect = effects[currentEffect]; // текущий выбранный объект
         previewImg.style.filter = `${effect.filter}(${numericValue}${effect.unit})`;//invert(50%)
       }else {
         previewImg.style.filter = 'none';
-        return;
       }
     });
   }
