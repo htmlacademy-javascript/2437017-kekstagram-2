@@ -28,38 +28,38 @@ const getMessageElement = (element) => { //success или error
   const closeMessage = () => {
     buttonSubmit.disabled = false;
     messageElement.remove();
-    document.removeEventListener('click', handleDocumentClick);
+    document.removeEventListener('keydown', onDocumentKeydown);
+    document.removeEventListener('click', onDocumentClick);
   };
 
   // обработка Escape
   const onDocumentKeydown = (evt) => {
-    if (evt.key === 'Escape' || document.querySelector(`.${formStatus.SUCCESS}`)) {
-      messageElement.remove();
-      document.removeEventListener('keydown', onDocumentKeydown); // Удаляем обработчик
+    if (evt.key === 'Escape') {
+      closeMessage();
     }
   };
 
-  function handleDocumentClick(event) {
+  function onDocumentClick(event) {
     if (!event.target.closest(`.${element}__inner`)) {
       closeMessage();
     }
   }
 
-  if (messageElement.parentNode) {
-    // Добавляем обработчик закрытия по кнопке
-    if (closeButton) {
-      closeButton.addEventListener('click', () => {
-        closeMessage();
-      });
-    }
+  // Добавляем обработчик закрытия по кнопке
+  if (closeButton) {
+  closeButton.addEventListener('click', (event) => {
+    event.stopPropagation(); // Останавливаем всплытие события
+    closeMessage();
+  });
+}
 
-    document.addEventListener('click', handleDocumentClick);
-    document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('click', onDocumentClick);
+  document.addEventListener('keydown', onDocumentKeydown);
 
-    setTimeout(() => {
-      closeMessage();// Удаляем только если элемент в DOM
-    }, config.TIMEOUT);
-  }
+  setTimeout(() => {
+    closeMessage();// Удаляем только если элемент в DOM
+  }, config.TIMEOUT);
+
 };
 
 export {getMessageElement, showErrorMessage};

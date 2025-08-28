@@ -17,22 +17,19 @@ function debounce(callback, timeoutDelay = 300) {
 
 //управления активным классом
 const setActiveFilter = (clickedButton) => {
+  const activeClass = 'img-filters__button--active';
   // Убираем активный класс со всех кнопок
   const allButtons = fromFilters.querySelectorAll('.img-filters__button');
   allButtons.forEach((button) => {
-    button.classList.remove('img-filters__button--active');
+    button.classList.remove(activeClass);
   });
   // Добавляем активный класс на clickedButton
-  clickedButton.classList.add('img-filters__button--active');
+  clickedButton.classList.add(activeClass);
 };
 
 const showSelectedFilter = (filterId, clickedElement) => {
   setActiveFilter(clickedElement);
   switch(filterId) {
-    case filters.DEFAULT: {
-      renderThumbnails(originalArray);
-      break;
-    }
     case filters.RANDOM: {
       const randomArray = [...originalArray].sort(() => Math.random() - 0.5).slice(0, config.NUMBER_RANDOM_PHOTOS);
       renderThumbnails(randomArray);
@@ -44,7 +41,7 @@ const showSelectedFilter = (filterId, clickedElement) => {
       break;
     }
     default:
-      break;
+      renderThumbnails(originalArray);
   }
 };
 
