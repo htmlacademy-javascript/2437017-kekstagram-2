@@ -1,8 +1,8 @@
-import { descriptionInput, hashtagsInput, uploadForm, initValidation } from './hashtag-validator.js';
+import { descriptionInput, hashtagsInput, uploadForm, resetValidation, buttonSubmit } from './hashtag-validator.js';
 import { initScaleControls, updateImageScale } from './image-editing-scale.js';
 import { addSlider, deleteSlider, tracksSelectedEffect, resetsValuesElements, effectsList } from './slider-effect.js';
-import {buttonSubmit} from './hashtag-validator.js';
-import {formStatus} from './data.js';
+import { formStatus, fileType } from './data.js';
+import { isEscapeKey } from './util.js';
 
 // Элементы формы
 const overlayImg = uploadForm.querySelector('.img-upload__overlay'); // контейнер редактирования загруженного изображения
@@ -11,7 +11,7 @@ const buttonReset = uploadForm.querySelector('#upload-cancel'); // Кнопка 
 const uploadFile = uploadForm.querySelector('#upload-file'); // input загрузка file
 
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
 
     const elementError = document.querySelector(`.${formStatus.ERROR}`);
     if (document.contains(elementError)) {
@@ -42,6 +42,7 @@ function closePhotoEditor () {
   effectsList.removeEventListener('change', tracksSelectedEffect);
   uploadFile.value = '';
   uploadForm.reset(); // Сбрасываем форму
+  resetValidation(); // Сбрасываем валидатор
   updateImageScale(1);
   resetsValuesElements();
   deleteSlider();
@@ -56,18 +57,18 @@ const openUploadedPhoto = (file) => {
   document.querySelector('body').classList.add('modal-open'); // После выбора изображения задаётся класс
   buttonReset.addEventListener('click', onCloseBtnClick); // удаляет с прослушиватель Х
   document.addEventListener('keydown', onDocumentKeydown); // удаляет с прослушивателя ESC
-  initValidation();
   initScaleControls();
   addSlider();
   tracksSelectedEffect();
-
 };
 
 // 1. инициализация загрузки формы
 const initUploadForm = () => {
   uploadFile.addEventListener('change', (evt) => {
     const file = evt.target.files[0]; // получаем массив, фото пользователя.
-    if (file) {
+    const validTypes = Object.values(fileType);
+
+    if (file && validTypes.includes(file.type)) {
       openUploadedPhoto(file); // передаем файл в функцию открытия
     }
   });

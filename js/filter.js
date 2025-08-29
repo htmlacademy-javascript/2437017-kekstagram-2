@@ -1,19 +1,11 @@
-import {renderThumbnails} from './rendering-thumbnails.js';
-import {config, filters} from './data.js';
+import { renderThumbnails } from './rendering-thumbnails.js';
+import { config, filters } from './data.js';
+import { debounce } from './util.js';
 
 let originalArray = [];
 
 const containerFilters = document.querySelector('.img-filters');
 const fromFilters = containerFilters.querySelector('.img-filters__form');
-
-// 1. Добавляем функцию debounce
-function debounce(callback, timeoutDelay = 500) {
-  let timeoutId;
-  return (...rest) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-  };
-}
 
 //управления активным классом
 const setActiveFilter = (clickedButton) => {

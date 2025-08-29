@@ -45,4 +45,9 @@ const scale = {
   DISPLAY_MULTIPLIER: 100
 };
 
-export {formStatus, config, filters, validator, effects, route, scale};
+const fileType = {
+  JPEG: 'image/jpeg',
+  PNG: 'image/png',
+};
+
+export {formStatus, config, filters, validator, effects, route, scale, fileType};
