@@ -1,5 +1,6 @@
 import {containerPictures} from './rendering-thumbnails.js';
 import {config} from './data.js';
+import { isEscapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const containerComments = bigPicture.querySelector('.social__comments');
@@ -64,7 +65,7 @@ const closeBigPicture = () => {
 
 //7.Обработчик клавиатуры - Esc (Ф-ия всплытия)
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     closeBigPicture();
   }
 }

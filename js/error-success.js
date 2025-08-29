@@ -1,5 +1,6 @@
 import {buttonSubmit} from './hashtag-validator.js';
 import {config} from './data.js';
+import { isEscapeKey } from './util.js';
 
 const errorLoadDataTemplate = document.querySelector('#data-error').content;
 
@@ -32,7 +33,7 @@ const getMessageElement = (element) => { //success или error
 
   // обработка Escape
   const onDocumentKeydown = (evt) => {
-    if (evt.key === 'Escape') {
+    if (isEscapeKey(evt)) {
       messageElement.remove();
       document.removeEventListener('keydown', onDocumentKeydown); // Удаляем обработчик
     }

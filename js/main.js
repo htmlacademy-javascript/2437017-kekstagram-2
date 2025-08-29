@@ -13,12 +13,10 @@ const initApp = async () => {
     renderThumbnails(photos);
     initBigPicture(photos);
     initFilters(photos);
-    initUploadForm(photos);
+    initUploadForm();
     setUserFormSubmit(closePhotoEditor);
   } catch (error) {
     showErrorMessage();
-    initUploadForm();
-    setUserFormSubmit(closePhotoEditor);
   }
 };
 

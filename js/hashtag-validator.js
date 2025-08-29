@@ -13,52 +13,56 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
-function initValidation() {
+// 1. Проверка на количество хэштегов (не больше 5)
+pristine.addValidator(
+  hashtagsInput,
+  (value) => {
+    const hashtagsArray = value.split(' ').filter((el) => el.trim() !== '');
+    return !value.trim() || hashtagsArray.length <= validator.NUMBER_HASHTAGS;
+  },
+  'Максимум 5 хэштегов!',
+  2,
+  true
+);
 
-  // 1. Проверка на количество хэштегов (не больше 5)
-  pristine.addValidator(
-    hashtagsInput,(value) => {
-      const hashtagsArray = value.split(' ').filter((el) => el.trim() !== '');
-      return !value.trim() || hashtagsArray.length <= validator.NUMBER_HASHTAGS;
-    },
-    'Максимум 5 хэштегов!',
-    2,
-    true
-  );
+// 2. Проверка формата и уникальности хэштегов
+pristine.addValidator(
+  hashtagsInput,
+  (value) => {
+    const hashtagsArray = value.split(' ').filter((el) => el.trim() !== '');
 
-  // 2. Проверка формата и уникальности хэштегов
-  pristine.addValidator(
-    hashtagsInput,(value) => {
-      const hashtagsArray = value.split(' ').filter((el) => el.trim() !== '');
+    for (let i = 0; i < hashtagsArray.length; i++) {
+      const current = hashtagsArray[i];
+      if (!validator.HASHTAG_REGEX.test(current)) {
+        return false;
+      }
 
-      for (let i = 0; i < hashtagsArray.length; i++) {
-        const current = hashtagsArray[i];
-        if (!validator.HASHTAG_REGEX.test(current)) {
+      for (let j = i + 1; j < hashtagsArray.length; j++) {
+        if (current.toLowerCase() === hashtagsArray[j].toLowerCase()) {
           return false;
         }
-
-        for (let j = i + 1; j < hashtagsArray.length; j++) {
-          if (current.toLowerCase() === hashtagsArray[j].toLowerCase()) {
-            return false;
-          }
-        }
       }
-      return true;
-    },
-    'Хэштег должен начинаться с #, содержать буквы/цифры (1-19 символов) и быть уникальным',
-    1,
-    true
-  );
+    }
+    return true;
+  },
+  'Хэштег должен начинаться с #, содержать буквы/цифры (1-19 символов) и быть уникальным',
+  1,
+  true
+);
 
-  // 3. Проверка комментария (не больше 140 символов)
-  pristine.addValidator(
-    descriptionInput,
-    (value) => value.length <= validator.LENGTH_COMMENT,
-    'Комментарий не должен превышать 140 символов',
-    1,
-    true
-  );
-}
+// 3. Проверка комментария (не больше 140 символов)
+pristine.addValidator(
+  descriptionInput,
+  (value) => value.length <= validator.LENGTH_COMMENT,
+  'Комментарий не должен превышать 140 символов',
+  1,
+  true
+);
+
+// Функция для сброса валидации
+const resetValidation = () => {
+  pristine.reset();
+};
 
 // Обработчик отправки формы
 const setUserFormSubmit = (onSuccess) => {
@@ -71,5 +75,6 @@ const setUserFormSubmit = (onSuccess) => {
     }
   });
 };
+
 export {descriptionInput, hashtagsInput, uploadForm, buttonSubmit };
-export {setUserFormSubmit, initValidation};
+export {setUserFormSubmit, resetValidation};
